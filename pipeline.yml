@@ -9,7 +9,10 @@ resources:
 
 # Jobs section
 jobs:
-- name: build # Name of the job
-  plan: # Steps in the job
+- name: build
+  plan:
   - get: sources
     trigger: true
+  - task: build software
+    file: sources/CI/task-build.yml
+
