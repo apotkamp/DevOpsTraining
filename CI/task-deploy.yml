@@ -19,7 +19,7 @@ run: # Gradle release + version bumping
   args:
   - -exc
   - |
-    git config --global user.email "concourse@build.com"
+    git config --global user.email "alexander_concourse@build.com"
     git clone sources sources-output
     cd sources-output/application
     ./gradlew printVersion
