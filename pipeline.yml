@@ -1,0 +1,15 @@
+# Resource section
+resources:
+- name: sources # Name of the resource
+  type: git # Resource type
+  source:
+    uri: git@github.com:apotkamp/DevOpsTraining.git
+    branch: master
+    private_key: ((private-repo-key))
+
+# Jobs section
+jobs:
+- name: build # Name of the job
+  plan: # Steps in the job
+  - get: sources
+    trigger: true
