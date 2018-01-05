@@ -7,6 +7,14 @@ resources:
     branch: master
     private_key: ((private-repo-key))
 
+- name: sources-write # Name of the resource
+  type: git # Resource type
+  source:
+    uri: git@github.com:apotkamp/DevOpsTraining.git
+    private_key: ((private-repo-key))
+    branch: master
+
+
 # Jobs section
 jobs:
 - name: build
@@ -23,3 +31,14 @@ jobs:
     passed: [build] # Trigger after job build has passed
   - task: unit test
     file: sources/CI/task-unit-test.yml
+
+- name: deploy # Name of the job
+  serial: true # No parallel execution of the plan
+  plan:
+  - get: sources # Download the sources
+    trigger: true
+    passed: [test] # Trigger after job test has passed
+  - task: tag, publish and publish new version
+    file: sources/CI/task-deploy.yml
+  - put: sources-write
+    params: {repository: sources-output} # Push latest version after tagging en version bump
